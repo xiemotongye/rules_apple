@@ -62,6 +62,18 @@ done
 # helps.
 # Yes IBTOOL appears to be correct here due to actool and ibtool being based
 # on the same codebase.
-xcrunwrapper actool --errors --warnings --notices \
-    --compress-pngs --output-format human-readable-text \
+
+# FIXME
+# work around for actool in xcode 10 generate much larger artifact
+# https://forums.developer.apple.com/message/330768#330768
+# xcrun can not specify just one tool (why hard code)
+
+if [ -f ~/Desktop/Xcode.app/Contents/Developer/usr/bin/actool ]; then
+  ~/Desktop/Xcode.app/Contents/Developer/usr/bin/actool --errors --warnings --notices \
+    --output-format human-readable-text \
     --compile "$(realpath "$OUTDIR")" "${TOOLARGS[@]}"
+else
+  xcrunwrapper actool --errors --warnings --notices \
+    --output-format human-readable-text \
+    --compile "$(realpath "$OUTDIR")" "${TOOLARGS[@]}"
+fi
