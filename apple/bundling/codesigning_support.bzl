@@ -191,7 +191,9 @@ def _codesign_command(ctx, path_to_sign, entitlements_file):
             entitlements_flag = (
                 "--entitlements %s" % shell.quote(entitlements_file.path)
             )
-
+        else:
+            entitlements_flag = "--preserve-metadata=identifier,entitlements,flags"
+        
         return ((cmd_prefix + "/usr/bin/codesign --force " +
                  "--sign $VERIFIED_ID %s %s") % (entitlements_flag, path))
     else:
