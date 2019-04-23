@@ -96,6 +96,10 @@ def _codesign_command_for_path(ctx, path_to_sign, provisioning_profile, entitlem
                 "--entitlements",
                 shell.quote(entitlements_file.path),
             ])
+        else:
+            cmd_codesigning.extend([
+                "--preserve-metadata=identifier,entitlements,flags",
+            ])
         cmd_codesigning.extend([
             "--force",
             full_path_to_sign,
